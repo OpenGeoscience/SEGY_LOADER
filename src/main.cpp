@@ -60,6 +60,8 @@ using namespace std;
 #include <vtkInformation.h>
 #include <vtkInformationVector.h>
 
+#include "SegyReader.h"
+
 void expandBounds(double* bounds)
 {
     double xRange = bounds[1] - bounds[0];
@@ -230,7 +232,12 @@ void demo2D()
         mapper->ScalarVisibilityOn();
         mapper->SetLookupTable(colorTransferFunction);
         actor->SetMapper(mapper);
-        //actor->SetTexture(texture);
+
+        vtkNew<vtkImageData> imageData;
+        reader->GetBackend().GetImageData(imageData.GetPointer());
+        vtkNew<vtkTexture> texture;
+        texture->SetInputData(imageData.GetPointer());
+        actor->SetTexture(texture.GetPointer());
 
         renderer->AddActor(actor);
 

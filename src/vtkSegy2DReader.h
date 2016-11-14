@@ -18,6 +18,12 @@ public:
     void PrintSelf(ostream& os, vtkIndent indent);
 
     vtkSetStringMacro(FileName);
+
+    SegyReader GetBackend()
+    {
+      return reader;
+    }
+
     vtkSegy2DReader();
     ~vtkSegy2DReader();
 protected:
